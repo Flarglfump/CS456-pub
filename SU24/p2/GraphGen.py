@@ -6,6 +6,7 @@ def generate_graph(n, d, graph_type):
   if graph_type == "A": # DAG
     G = nx.DiGraph()
     nodes = list(range(n))
+    G.add_nodes_from(nodes)
     random.shuffle(nodes)
 
     for i in range(n):
@@ -46,10 +47,9 @@ def save_graph_to_file(G, filename):
 
 def main():
   node_counts = [200, 800, 1400]
-  densities = [4, int(200**0.5), int(200/2)]
   
   # "A" for DAG, "B" for Positive Cycles, "C" for Negative Weights
-  graph_types = ["B", "C"]
+  graph_types = ["A", "B", "C"]
 
   # Create directory to store graphs
   out_dir = "InputGraphs"
@@ -58,6 +58,7 @@ def main():
 
   for graph_type in graph_types:
     for n in node_counts:
+      densities = [4, int(n**0.5), int(n/2)]
       for d in densities:
         print(f"Generating n={n}, d={d}, Type={graph_type}...")
         G = generate_graph(n, d, graph_type)
